@@ -84,6 +84,7 @@ from tkinter import messagebox
 
 # Indentification視窗
 # 在定義子視窗時，label、button、entry都要在前面加win，因為這樣才能對應到視窗
+# 子視窗 - 建立按鈕
 def window():
     win = tk.Toplevel()
     win.title("Indentification")
@@ -107,8 +108,11 @@ def window():
     def answer():
         an = en.get().strip() # strip表示去掉空白
         print(an)
-        if not an: # 如果為空白
+        if not an or len(an) != 10: # 如果為空白且不足10個
              return mistake()
+        
+        if not an[0].isupper() or not an[0].isalpha() or not an[1:].isdigit():
+              return mistake()
         
         with open("answer.txt","a",encoding="utf-8") as file: # a代表追加
                     file.write(an+'\n')
@@ -128,6 +132,7 @@ def window():
     bt.grid(row=2,column=1,columnspan=2)
     win.bind('<Return>',lambda event: answer())
 
+# 主頁面
 win = tk.Tk()
 win.title("首頁")
 win.geometry("400x300+800+300")
