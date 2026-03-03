@@ -78,13 +78,17 @@ def oi():
 # mainloop() 只要在主視窗呼叫一次
 # 子視窗會自動跟著主視窗的執行，不需要再呼叫 mainloop()
 
+# pack() -> - 控制方式：指定方向 side="top", "bottom", "left", "right"。
+# grid() -> 用 row 、 column
+# place() -> 用 xy 座標
+
 
 import tkinter as tk
 from tkinter import messagebox
 
 # Indentification視窗
 # 在定義子視窗時，label、button、entry都要在前面加win，因為這樣才能對應到視窗
-# 子視窗 - 建立按鈕
+# 子視窗 - 建立的按鈕
 def window():
     win = tk.Toplevel()
     win.title("Indentification")
@@ -97,11 +101,11 @@ def window():
     lb.grid(row=0,column=1,columnspan=2)
 
 
-    identity_number = tk.Label(win,text="identity number",bg="#323232",fg="skyblue")
+    identity_number = tk.Label(win,text="identity number:",bg="#323232",fg="skyblue")
     identity_number.grid(row=1,column=1)
 
     en = tk.Entry(win)
-    en.grid(row=1,column=2)
+    en.grid(row=1,column=3)
 
 
 
@@ -117,7 +121,6 @@ def window():
         with open("answer.txt","a",encoding="utf-8") as file: # a代表追加
                     file.write(an+'\n')
 
-
     def mistake():
          messagebox.showerror("錯誤訊息","輸入有誤，請重新輸入")
          '''
@@ -132,6 +135,30 @@ def window():
     bt.grid(row=2,column=1,columnspan=2)
     win.bind('<Return>',lambda event: answer())
 
+
+# 子視窗 - 查詢的按鈕
+def window2():
+      win = tk.Toplevel()
+      win.title("inquiry")
+
+      win.geometry("400x300+800+300") # geometry("寬 x 高 +x座標 +y座標")
+      win.config(background="#323232") # config用來修改屬性
+      win.iconbitmap("ixsuq-tkybo-001.ico")
+
+      lb = tk.Label(win,text="請輸入要查詢的身分證號碼:",bg="#323232",fg="skyblue",font="微軟正黑體 10")
+      lb.grid(row=1,column=1,columnspan=2) # columnspan 為跨欄的意思
+      
+      id_number = tk.Label(win,text="identity number:",bg="#323232",fg="skyblue")
+      id_number.grid(row=2,column=1)
+
+      en = tk.Entry(win)
+      en.grid(row=2,column=2)
+
+      bt = tk.Button(win,text="提交")
+      bt.grid(row=3,column=1,columnspan=2)
+      win.bind('<Return>') # bind 是 Tkinter 用來「綁定事件」的方法，'<Return>' 表示鍵盤上的 Enter 鍵。
+
+
 # 主頁面
 win = tk.Tk()
 win.title("首頁")
@@ -141,6 +168,6 @@ win.config(background="#323232")
 outbutton = tk.Button(text="建立ID",fg="black",command=window)
 outbutton.place(anchor="center",x=200,y=20)
 
-outbutton2 = tk.Button(text="查詢ID",fg="black")
+outbutton2 = tk.Button(text="查詢ID",fg="black",command=window2)
 outbutton2.place(anchor="center",x=200,y=65)
 win.mainloop()
