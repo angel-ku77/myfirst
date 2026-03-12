@@ -133,30 +133,41 @@ def window():
 
     bt = tk.Button(win,text="提交",command=answer)
     bt.grid(row=2,column=1,columnspan=2)
-    win.bind('<Return>',lambda event: answer())
+    win.bind('<Return>',lambda event:answer())
 
 
 # 子視窗 - 查詢的按鈕
 def window2():
-      win = tk.Toplevel()
-      win.title("inquiry")
+    win = tk.Toplevel()
+    win.title("inquiry")
 
-      win.geometry("400x300+800+300") # geometry("寬 x 高 +x座標 +y座標")
-      win.config(background="#323232") # config用來修改屬性
-      win.iconbitmap("ixsuq-tkybo-001.ico")
+    win.geometry("400x300+800+300") # geometry("寬 x 高 +x座標 +y座標")
+    win.config(background="#323232") # config用來修改屬性
+    win.iconbitmap("ixsuq-tkybo-001.ico")
 
-      lb = tk.Label(win,text="請輸入要查詢的身分證號碼:",bg="#323232",fg="skyblue",font="微軟正黑體 10")
-      lb.grid(row=1,column=1,columnspan=2) # columnspan 為跨欄的意思
+    lb = tk.Label(win,text="請輸入要查詢的身分證號碼:",bg="#323232",fg="skyblue",font="微軟正黑體 10")
+    lb.grid(row=1,column=1,columnspan=2) # columnspan 為跨欄的意思
       
-      id_number = tk.Label(win,text="identity number:",bg="#323232",fg="skyblue")
-      id_number.grid(row=2,column=1)
+    id_number = tk.Label(win,text="identity number:",bg="#323232",fg="skyblue")
+    id_number.grid(row=2,column=1)
 
-      en = tk.Entry(win)
-      en.grid(row=2,column=2)
+    en = tk.Entry(win) # 輸入框
+    en.grid(row=2,column=2)
+    
+      
+    def inquiry():
+        user_input = en.get().strip()
+        with open("answer.txt","r",encoding = "utf-8") as file:
+            data = file.read().splitlines() # 把字串依照「換行符號」切割成一個 list
+            
+            if user_input in data:
+                    messagebox.showinfo("查詢結果:",f"此帳號 '{user_input}' 存在")
+            else:
+                    messagebox.showinfo("查詢結果:","沒此帳號")    
 
-      bt = tk.Button(win,text="提交")
-      bt.grid(row=3,column=1,columnspan=2)
-      win.bind('<Return>') # bind 是 Tkinter 用來「綁定事件」的方法，'<Return>' 表示鍵盤上的 Enter 鍵。
+    bt = tk.Button(win,text="提交",command=inquiry)
+    bt.grid(row=3,column=1,columnspan=2)
+    win.bind('<Return>',lambda event: inquiry()) # bind 是 Tkinter 用來「綁定事件」的方法，'<Return>' 表示鍵盤上的 Enter 鍵。
 
 
 # 主頁面
