@@ -85,6 +85,7 @@ def oi():
 
 import tkinter as tk
 from tkinter import messagebox
+from PIL import Image, ImageTk # 使用Pillow套件
 
 # Indentification視窗
 # 在定義子視窗時，label、button、entry都要在前面加win，因為這樣才能對應到視窗
@@ -143,9 +144,16 @@ def window2():
 
     win.geometry("400x300+800+300") # geometry("寬 x 高 +x座標 +y座標")
     win.config(background="#323232") # config用來修改屬性
-    win.iconbitmap("ixsuq-tkybo-001.ico")
+    
 
-    lb = tk.Label(win,text="請輸入要查詢的身分證號碼:",bg="#323232",fg="skyblue",font="微軟正黑體 10")
+    # 插入小插圖
+    img = Image.open("user.png")
+    img = img.resize((50,50)) # 指定寬高
+    mag = ImageTk.PhotoImage(img)
+   
+
+    lb = tk.Label(win,text="請輸入要查詢的身分證號碼:",bg="#323232",fg="skyblue",font="微軟正黑體 10",image=mag,compound="left")
+    lb.image = mag
     lb.grid(row=1,column=1,columnspan=2) # columnspan 為跨欄的意思
       
     id_number = tk.Label(win,text="identity number:",bg="#323232",fg="skyblue")
@@ -176,9 +184,24 @@ win.title("首頁")
 win.geometry("400x300+800+300")
 win.config(background="#323232")
 
-outbutton = tk.Button(text="建立ID",fg="black",command=window)
-outbutton.place(anchor="center",x=200,y=20)
+#建立資區域
+frame1 =tk.Frame(win,bg="lightyellow")
+frame1.pack(fill="x",pady=5)  # fill="x" 填滿x軸 ， pady為垂直間距 ， padx為水平間距
 
-outbutton2 = tk.Button(text="查詢ID",fg="black",command=window2)
-outbutton2.place(anchor="center",x=200,y=65)
+lab1 = tk.Label(frame1,text="建立資料區域",bg="lightyellow")
+lab1.pack()
+
+
+outbutton = tk.Button(frame1,text="建立ID",fg="black",command=window)
+outbutton.pack(pady=10) # side預設為top
+
+# 查詢資料區域
+frame2 = tk.Frame(win,bg="lightblue")
+frame2.pack(fill="x",pady=10)
+
+lab2 = tk.Label(frame2,text="查詢資料區域",bg="lightblue")
+lab2.pack() 
+
+outbutton2 = tk.Button(frame2,text="查詢ID",fg="black",command=window2)
+outbutton2.pack(pady=5)
 win.mainloop()
